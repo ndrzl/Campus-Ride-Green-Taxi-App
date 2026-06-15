@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: campus-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: campus_ride
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: campus-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:123@postgres:5432/campus_ride
+      - SUPABASE_URL=https://nsjaiduexqvojcjegpbk.supabase.co
+      - SUPABASE_SECRET_KEY=sb_secret_eROrrDNzXS2BUG3Rr3PJLA_n84jDCjj
+      - JWT_SECRET=85f70fc8-63fd-4446-98b0-55519134712e
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: campus-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=https://fqroovdgqivwgohjuzac.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxcm9vdmRncWl2d2dvaGp1emFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NzQ3NTYsImV4cCI6MjA5NzA1MDc1Nn0.iNBB23ARcQNKFUzT2oWTrFtkDKyPkPTDJERJYWzLvwc
+    depends_on:
+      - backend
