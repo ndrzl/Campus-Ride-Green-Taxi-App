@@ -111,7 +111,7 @@ export const SYLLABUS_MAP: Record<string, SyllabusTrace[]> = {
   "11.1": [
     { layer: 4, concept: "SOCKET_BIND", details: "Server: bind(AF_INET, 0.0.0.0:8000)" },
     { layer: 4, concept: "SOCKET_LISTEN", details: "Server: listen(backlog=128)..." },
-    { layer: 4, concept: "SOCKET_ACCEPT", details: "Server: accept() -> Connection from 127.0.0.1:54321" }
+    { layer: 4, concept: "SOCKET_ACCEPT", details: "Server: accept() -> Connection from 127.0.0.1:1" }
   ],
 
   // --- 12. Security ---

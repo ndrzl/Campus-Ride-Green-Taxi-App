@@ -2,23 +2,23 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.ext.declarative import declarative_base
 import os
 
-# Connection string using asyncpg driver
-HOST = "localhost"
+# --- LOCAL MAC CONFIGURATION ---
+# Change '123' to your actual pgAdmin/Postgres password
+# Change 'campus' to the exact name of the DB you created in pgAdmin
+HOST = "127.0.0.1"
 PORT = "5432"
-USER = "postgres"
-PASSWORD = "123"
-DATABASE = "campus"
+USER = "nadhirahzulkifli"
+PASSWORD = "123" 
+DATABASE = "campus" 
 
-# Note the change to +asyncpg
-SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
-)
+# Using asyncpg for asynchronous database communication
+# The f-string builds the connection URL automatically
+SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
 
 # Create Async Engine
 engine = create_async_engine(
     SQLALCHEMY_DATABASE_URL,
-    echo=False,
+    echo=True, # Set to True for now so you can see the SQL in your terminal!
     future=True
 )
 
