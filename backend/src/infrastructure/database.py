@@ -5,15 +5,15 @@ import os
 # --- LOCAL MAC CONFIGURATION ---
 # Change '123' to your actual pgAdmin/Postgres password
 # Change 'campus' to the exact name of the DB you created in pgAdmin
-HOST = "127.0.0.1"
-PORT = "5432"
-USER = "nadhirahzulkifli"
-PASSWORD = "123" 
-DATABASE = "campus" 
+HOST = os.getenv("DB_HOST", "127.0.0.1")
+PORT = os.getenv("DB_PORT", "5432")
+USER = os.getenv("DB_USER", "nadhirahzulkifli")
+PASSWORD = os.getenv("DB_PASSWORD", "123") 
+DATABASE = os.getenv("DB_NAME", "campus")
 
 # Using asyncpg for asynchronous database communication
 # The f-string builds the connection URL automatically
-SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
+SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL", f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
 
 # Create Async Engine
 engine = create_async_engine(

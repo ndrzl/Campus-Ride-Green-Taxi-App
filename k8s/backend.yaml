@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-backend
+  namespace: default
+spec:
+  replicas: 2 # Lecturer's requirement: Ensure high availability
+  selector:
+    matchLabels:
+      app: campus-backend
+  template:
+    metadata:
+      labels:
+        app: campus-backend
+    spec:
+      containers:
+      - name: backend
+        image: campus-backend:v3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: "campus-postgres-service"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "123"
+        envFrom:
+        - configMapRef:
+            name: campus-config # Automatically injects BACKEND_HOST, BACKEND_PORT, NODE_ENV
+        - secretRef:
+            name: campus-secret # Automatically injects supabase credentials
+        livenessProbe:
+          httpGet:
+            path: /health # Or your API's specific root health-check path (e.g., "/")
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: campus-backend-service
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: campus-backend
