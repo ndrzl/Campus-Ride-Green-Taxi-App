@@ -27,6 +27,7 @@ npm error enoent Could not read package.json: Error: ENOENT: no such file or dir
 npm error enoent This is related to npm not being able to find a file.
 npm error enoent
 npm error A complete log of this run can be found in: C:\Users\User\AppData\Local\npm-cache\_logs\2026-04-09T05_44_37_041Z-debug-0.log
+
 PS C:\git\dist_sys_app> pip install -r backend\requirements.txt
 Collecting annotated-doc==0.0.4 (from -r backend\requirements.txt (line 1))
   Obtaining dependency information for annotated-doc==0.0.4 from https://files.pythonhosted.org/packages/1e/d3/26bf1008eb3d2daa8ef4cacc7f3bfdc11818d111f7e2d0201bc6e3b49d45/annotated_doc-0.0.4-py3-none-any.whl.metadata
