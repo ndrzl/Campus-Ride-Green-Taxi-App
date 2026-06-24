@@ -22,7 +22,7 @@ app = FastAPI(
 
 # Add Middlewares
 app.add_middleware(LoggingMiddleware)
-app.add_middleware(SecurityMiddleware)
+#app.add_middleware(SecurityMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Adjusted for development
